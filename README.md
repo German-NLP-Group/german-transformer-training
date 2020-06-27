@@ -7,7 +7,7 @@ The goal of this repository is to plan the training of German transformer models
 ## Links & Know-how Collection
 
 NLP Libs
-- [Fairseq](https://github.com/pytorch/fairseq)
+- [Fairseq](https://fairseq.readthedocs.io/) - [GitHub](https://github.com/pytorch/fairseq)
 - [Hugging Face](https://huggingface.co/) - [GitHub](https://github.com/huggingface)
 - [FARM](https://farm.deepset.ai/) - [GitHub](https://github.com/deepset-ai/FARM)
 
