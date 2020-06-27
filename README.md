@@ -8,6 +8,7 @@ The goal of this repository is to plan the training of German transformer models
 
 Training
 - Pre-training SmallBERTa - A tiny model to train on a tiny dataset: https://gist.github.com/aditya-malte/2d4f896f471be9c38eb4d723a710768b
+- Pretraining RoBERTa using your own data(Fairseq): https://github.com/pytorch/fairseq/blob/master/examples/roberta/README.pretraining.md
 
 ## Datasets / Data Sources
 - German Wikipedia
