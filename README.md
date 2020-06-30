@@ -11,8 +11,11 @@
 Dataset                                                                  | Raw Size    /Characters                                                               | Used/Filtered?                                                            | URL| Notes/Status
 ----------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- | ------------------------------------------------------------------ | ----------------------------------------------------- | ----------------------------------
 German Wikipedia Dump                                         |  5.4 GB / 5.3b   |             |       | 
+Oscar Corpus (Common Crawl)                                       |  145 GB / 21b Words  |     Filtered for Wiki Like Quality        |  <a href ='https://oscar-corpus.com/'>Downlaod</a>     | 
+FB cc_net (Common Crawl)                                       |  164 GB / 58 b Tokens (Head) |     Filtered for Wiki Like Quality        |  <a href ='https://github.com/facebookresearch/cc_net'>Code</a>     |  More broadly filtered versions middle&tail available too
 EU Book Shop                                              | 2.3 GB / 2.3b  |        | 
 News 2018                                             | 4.3 GB / 4.3b  |        | 
+Wortschatz Uni Leipzig                                             | > 20 * 200 mb |   Part of News 2018???     | <a href ='https://wortschatz.uni-leipzig.de/de/download/german'>Code</a> 
 Paracrawl                                            | 3.2 GB / 3.2b  |        | 
 Open Subtitles                                            | 1.3 GB / 1.3b  |        | 
 Open Legal Dump                                                    |   3.6 GB / 3.5b        | | <a href ='http://openlegaldata.io/research/2019/02/19/court-decision-dataset.html'>Announcment</a>        | Used by Deepset
@@ -23,8 +26,13 @@ Corpus of German-Language Fiction (txt) | 2735 Prose Works  |        |  <a href 
 - Mabe Identical to News 2018??? <a href ='https://datasetsearch.research.google.com/search?query=german&docid=37NTDqMDLv%2BKtj8QAAAAAA%3D%3D'>Leipzig Corpus Collection</a>
 - <a href ='https://www.ims.uni-stuttgart.de/en/research/resources/corpora/hgc/'>Huge German Corpus (HGC)</a>
 
+### Data Preperation
+ 
+ See Tokenizer.py
+
 
 ## 2. Training 
+
 
 Training
 - Pre-training SmallBERTa - A tiny model to train on a tiny dataset: https://gist.github.com/aditya-malte/2d4f896f471be9c38eb4d723a710768b
