@@ -2,14 +2,16 @@
 
 ## Cleanup
 Typical Dirt:
-- <BR>
-- <br> and </br>
-- <onlyinclude> and <onlyinclude>
-- <nowiki>
-- </ref>
-- <ref
-- <-
-- </poem>
+```
+<BR>
+<br> and </br>
+<onlyinclude> and <onlyinclude>
+<nowiki>
+</ref>
+<ref
+<-
+</poem>
+```
 
 ## Wikipedia
 - latest dump from german wikipedia: http://ftp.acc.umu.se/mirror/wikimedia.org/dumps/dewiki/
