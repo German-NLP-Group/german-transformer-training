@@ -11,15 +11,17 @@
 Dataset                                                                  | Raw Size    /Characters                                                               | Used/Filtered?                                                            | URL| Notes/Status
 ----------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- | ------------------------------------------------------------------ | ----------------------------------------------------- | ----------------------------------
 German Wikipedia Dump                                         |  5.4 GB / 5.3b   |             |       | 
-Oscar Corpus (Common Crawl)                                       |  145 GB / 21b Words  |     Filtered for Wiki Like Quality        |  <a href ='https://oscar-corpus.com/'>Downlaod</a>     | 
-FB cc_net (Common Crawl)                                       |  164 GB / 58 b Tokens (Head) |     Filtered for Wiki Like Quality        |  <a href ='https://github.com/facebookresearch/cc_net'>Code</a>     |  More broadly filtered versions middle&tail available too
+Oscar Corpus (Common Crawl 2018-47)                                       |  145 GB / 21b Words  |     Filtered for Wiki Like Quality        |  <a href ='https://oscar-corpus.com/'>Downlaod</a>     | 
+FB cc_net (Common Crawl 2019-09 )                                       |  164 GB / 58 b Tokens (Head) |     Filtered for Wiki Like Quality        |  <a href ='https://github.com/facebookresearch/cc_net'>Code</a>     |  More broadly filtered versions middle&tail available too
 EU Book Shop                                              | 2.3 GB / 2.3b  |        | 
 News 2018                                             | 4.3 GB / 4.3b  |        | 
 Wortschatz Uni Leipzig                                             | > 20 * 200 mb |   Part of News 2018???     | <a href ='https://wortschatz.uni-leipzig.de/de/download/german'>Code</a> 
 Paracrawl                                            | 3.2 GB / 3.2b  |        | 
-Open Subtitles                                            | 1.3 GB / 1.3b  |        | 
+Open Subtitles                                            | 1.3 GB / 288m Tokens  |        | 
 Open Legal Dump                                                    |   3.6 GB / 3.5b        | | <a href ='http://openlegaldata.io/research/2019/02/19/court-decision-dataset.html'>Announcment</a>        | Used by Deepset
 Corpus of German-Language Fiction (txt) | 2735 Prose Works  |        |  <a href ='https://figshare.com/articles/Corpus_of_German-Language_Fiction_txt_/4524680/1'>Download</a> | Old (1510-1940)
+
+https://ofai.github.io/million-post-corpus/
 
 ### Additional Sources 
 - Originally meant for translations tasks: <a href ='http://www.statmt.org/wmt19/translation-task.html#download'>WMT 19</a>
@@ -27,8 +29,10 @@ Corpus of German-Language Fiction (txt) | 2735 Prose Works  |        |  <a href 
 - <a href ='https://www.ims.uni-stuttgart.de/en/research/resources/corpora/hgc/'>Huge German Corpus (HGC)</a>
 
 ### Data Preperation
- 
- See Tokenizer.py
+ 1. Clean Files 
+ 2. Split in distinct sentences 
+ (2.2 Create Vocab)
+ 3. Tokenize 
 
 
 ## 2. Training 
