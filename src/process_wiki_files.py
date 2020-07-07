@@ -126,9 +126,6 @@ if __name__ == '__main__':
     pool_size = cpu_count() * 2 * 2
     print("pool_size:", pool_size)
 
-    # debug
-    pool_size = 1
-
     with Pool(pool_size) as p:
         p.map(pd, call_list)
 
