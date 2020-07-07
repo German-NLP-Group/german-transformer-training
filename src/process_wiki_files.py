@@ -1,5 +1,6 @@
 from somajo import SoMaJo
 import os
+import re
 from multiprocessing import Pool, cpu_count
 
 INPUT_DIR = "../data"
@@ -8,33 +9,22 @@ OUTPUT_DIR = "../output"
 
 tokenizer = SoMaJo("de_CMC")
 
+html_tag_patten = re.compile('<[^<>]+>')
+
 
 # see https://github.com/tsproisl/SoMaJo/issues/17
-def detokenize(tokens, line):
+def detokenize(tokens):
     out = []
-    print_line = False
     for token in tokens:
         if token.original_spelling is not None:
-            token_str = token.original_spelling
+            out.append(token.original_spelling)
         else:
-            token_str = token.text
-
-        if not (token_str.startswith('<') and token_str.endswith('>')):
-            out.append(token_str)
-        else:
-            print(token_str)
-            print_line = True
+            out.append(token.text)
 
         if token.space_after:
             out.append(" ")
 
-    result = "".join(out)
-
-    if print_line:
-        print('ori:', line)
-        print('result:', result)
-        print('#############################')
-    return result
+    return "".join(out)
 
 
 def is_doc_start_line(line):
@@ -54,12 +44,14 @@ def get_data_dirs(root_dir):
 
 
 def process_text_line(line):
+    line = re.sub(html_tag_patten, ' ', line)
+
     sentences = tokenizer.tokenize_text([line])
 
     result = []
 
     for s in sentences:
-        sentence_string = detokenize(s, line)
+        sentence_string = detokenize(s)
         result.append(sentence_string)
 
     return result
