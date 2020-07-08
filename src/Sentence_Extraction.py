@@ -21,73 +21,26 @@ import json
 import os
 import gzip
 import pdb
-
-#with open('data/CC_head.txt') as file: 
-#    cc_head = json.load(file)
-
-
-# =============================================================================
-# Read Json
-# =============================================================================
-if False: 
-#for line in open('data/CC_head.txt', 'r'):
-    for line in open('data/head_0000.txt', 'r'):
-        scraped = json.loads(line)
-        raw_text.append(scraped['raw_content'])
-        title.append(scraped['title'])
-
-# =============================================================================
-# Read .txt 
-# =============================================================================
- 
-if False: 
-    with open('data/wiki_million.txt') as f:
-    #with open('/media/data/47_KISS/11_tika/Combined_Raw.txt') as f:
-        #raw_text = f.readlines()
-        data = f.read()
-    # you may also want to remove whitespace characters like `\n` at the end of each line
-    raw_text = [x.strip() for x in raw_text] 
-
-   
+from multiprocessing import Pool
+import subprocess
     
 # =============================================================================
 # 2nd Approch nearly keep the raw data
 # =============================================================================
 from somajo import SoMaJo
 from tqdm import tqdm
-"""
-sen_out = []
-#outF = open("data/Splitted.txt", "w")
-outF = open("/media/data/47_KISS/11_tika/Sentences.txt", "w")
-tokenizer = SoMaJo("de_CMC", split_camel_case=True)
-#for part in tqdm(raw_text):
-if True: 
-    part = data    
-    sentences = tokenizer.tokenize_text([part])
-    for sentence in sentences:
-        output = ""
-        for token in sentence:
-            #word_list = [token.text for token in sentence]
-            if (token.space_after and not token.last_in_sentence and not token.first_in_sentence): 
-                output += (token.text + ' ')
-            elif token.first_in_sentence: 
-                output += (' ' + token.text + ' ')
-            else: 
-                #output = " ".join(word_list[:-1])
-                output += token.text
-                #output += word_list[-1]
-        sen_out.append(output)
-        if len(output) > 3 and len(output) < 300 and not 'ID' in output: 
-            outF.write(output.strip())
-            outF.write("\n")
-    #outF.write("\n")data = json.loads(json_str)  
-outF.close()
-"""
-
 import ray
+
+
 @ray.remote
-def split(list_of_text, thread_number): 
-    outF = open(f"data/tmp/Splitted_{thread_number}.txt", "w")
+def split(list_of_text, thread_number, TMP_DIR): 
+    """
+    Splits text in sentences
+    Writes line for line with leading space (for BPE) 
+    Every document is separated by a free line
+    """
+    print(os.path.join(TMP_DIR, "Splitted_{:05d}.txt".format(thread_number)))
+    outF = open(os.path.join(TMP_DIR, "Splitted_{:05d}.txt".format(thread_number)), "w")
     tokenizer = SoMaJo("de_CMC", split_camel_case=True)
     for part in tqdm(list_of_text):
         sentences = tokenizer.tokenize_text([part])
@@ -118,11 +71,11 @@ def chunks(lst, n):
         
 def read_file(path): 
     """
-    Read and extracts Files
+    Read and extracts all Files in Input Path
     """
     for file in os.listdir(path): 
+        file_path = os.path.join(path, file)
         if file.endswith('.gz'):
-            file_path = os.path.join(path, file)
             #with gzip.open() as f_in: 
             with gzip.open(file_path, 'rt', encoding='ascii') as zipfile:
                 data = json.load(zipfile)
@@ -134,56 +87,71 @@ def read_file(path):
                 data = json.loads(data)  
                 #raw_text = f_in.read()
             """
+        elif file.endswith('.txt'):
+            with open(file_path) as f:
+                raw_text = f.readlines()
+                data = [x.strip() for x in raw_text] 
+            
+        elif file.endswith('.json'):
+            data = []
+            for line in open(file_path, 'r'):
+                scraped = json.loads(line)
+                data.append(scraped['raw_content'])
+            
         yield data
-        
+ 
+
+def run_command(cmd_vars):
+    bert_pretraining_cmd = """python {}create_pretraining_data.py \
+                      --input_file={} \
+                      --output_file={}/tf_examples.tfrecord_{:05d} \
+                      --vocab_file=../data/bert_german-vocab.txt \
+                      --do_lower_case=True \
+                      --max_seq_length=128 \
+                      --max_predictions_per_seq=20 \
+                      --masked_lm_prob=0.15 \
+                      --random_seed=12345 \
+                      --dupe_factor=5 \
+                      --do_whole_word_mask=True"""
+                      
+    BERT_PATH, file_path, TF_OUT_DIR, index = cmd_vars
+    command = bert_pretraining_cmd.format(BERT_PATH, file_path, TF_OUT_DIR, index)
+    process = subprocess.Popen(command, shell=True)
+    process.wait()
+    return None
+       
         
         
 if __name__ == '__main__':  
-    THREADS = 22
-    """
-    files = read_file('/media/data/48_BERT/Common_Crawl/CC_german_head')
-    a = list(files)
-    
-    ray.init(num_cpus=THREADS)
-    result_ids = []
-    chunksize = len(raw_text) // 1e5 #Needs XX GB RAM per Core
-    for index, chunk in enumerate(chunks(raw_text, chunksize)):
-        result_ids.append(split.remote(chunk, index))
-        
-    results = ray.get(result_ids)
-    """
-
-    bert_pretraining_cmd = """python ../01_BERT_Code/bert/create_pretraining_data.py \
-                          --input_file={} \
-                          --output_file={}/tf_examples.tfrecord_{:03d} \
-                          --vocab_file=data/bert_german-vocab.txt \
-                          --do_lower_case=True \
-                          --max_seq_length=128 \
-                          --max_predictions_per_seq=20 \
-                          --masked_lm_prob=0.15 \
-                          --random_seed=12345 \
-                          --dupe_factor=5 \
-                          --do_whole_word_mask=True"""
-
-
-
-    from multiprocessing import Pool
-    import subprocess
-    
-    
-    def run_command(cmd_vars):
-        file_path, TF_OUT_DIR, index = cmd_vars
-        command = bert_pretraining_cmd.format(file_path, TF_OUT_DIR, index)
-        subprocess.Popen(command, shell=True)
-
-
+    THREADS = 8
+    IN_DIR = "/media/data/48_BERT/german-transformer-training/data/head"
     TMP_DIR = "/media/data/48_BERT/german-transformer-training/data/tmp"
     TF_OUT_DIR = "/media/data/48_BERT/german-transformer-training/data/tf_rec"
+    
+    BERT_PATH = "../../01_BERT_Code/bert/"
+    
+    """
+    ray.init(num_cpus=THREADS)
+    
+    files = read_file(IN_DIR)
+    #a = list(files)
+    for file in files: 
+        result_ids = []
+        #1e4 for json,gz else 1e5 
+        chunksize = int(1e4) #Needs XX GB RAM per Core
+        for index, chunk in enumerate(chunks(file, chunksize)):
+            result_ids.append(split.remote(chunk, index, TMP_DIR))
+            
+        results = ray.get(result_ids)
+    
+    ray.shutdown()
+    """
+
     cmd_var = []
     for index, file in enumerate(os.listdir(TMP_DIR)): 
         file_path = os.path.join(TMP_DIR, file)
         #os.system(bert_pretraining_cmd.format(file_path, TF_OUT_DIR, str(index)))
-        cmd_var.append([file_path, TF_OUT_DIR, index])
+        cmd_var.append([BERT_PATH, file_path, TF_OUT_DIR, index])
     
     pool = Pool(processes=THREADS)    #22 * 14 mb *dupe=5 (1540mb) equals 30 GB of RAM
     pool.map(run_command, cmd_var)    #Output: 22*270 Mb = 5940 mb Output Files
@@ -213,6 +181,34 @@ if __name__ == '__main__':
 # =============================================================================
 # DEPRECATED !!!!
 # =============================================================================
+"""
+sen_out = []
+#outF = open("data/Splitted.txt", "w")
+outF = open("/media/data/47_KISS/11_tika/Sentences.txt", "w")
+tokenizer = SoMaJo("de_CMC", split_camel_case=True)
+#for part in tqdm(raw_text):
+if True: 
+    part = data    
+    sentences = tokenizer.tokenize_text([part])
+    for sentence in sentences:
+        output = ""
+        for token in sentence:
+            #word_list = [token.text for token in sentence]
+            if (token.space_after and not token.last_in_sentence and not token.first_in_sentence): 
+                output += (token.text + ' ')
+            elif token.first_in_sentence: 
+                output += (' ' + token.text + ' ')
+            else: 
+                #output = " ".join(word_list[:-1])
+                output += token.text
+                #output += word_list[-1]
+        sen_out.append(output)
+        if len(output) > 3 and len(output) < 300 and not 'ID' in output: 
+            outF.write(output.strip())
+            outF.write("\n")
+    #outF.write("\n")data = json.loads(json_str)  
+outF.close()
+"""
 
 # =============================================================================
 # Copy pasted from BERT tokenization.py

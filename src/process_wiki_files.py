@@ -3,9 +3,9 @@ import os
 import re
 from multiprocessing import Pool, cpu_count
 
-INPUT_DIR = "../data"
+INPUT_DIR = "../data/wiki/"
 
-OUTPUT_DIR = "../output"
+OUTPUT_DIR = "../output/wiki/"
 
 tokenizer = SoMaJo("de_CMC")
 

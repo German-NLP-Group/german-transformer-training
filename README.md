@@ -8,17 +8,17 @@
 ## 1. Datasets / Data Sources
 - Germeval 2017: https://sites.google.com/view/germeval2017-absa/data
 
-Dataset                                                                  | Raw Size    /Characters                                                               | Used/Filtered?                                                            | URL| Notes/Status
------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------- | ------------------------------------------------------------------ | ----------------------------------------------------- | ----------------------------------
-German Wikipedia Dump                                         |  5.4 GB / 5.3b   |             |       | 
-Oscar Corpus (Common Crawl 2018-47)                                       |  145 GB / 21b Words  |     Filtered for Wiki Like Quality        |  <a href ='https://oscar-corpus.com/'>Downlaod</a>     | 
-FB cc_net (Common Crawl 2019-09 )                                       |  164 GB / 58 b Tokens (Head) |     Filtered for Wiki Like Quality        |  <a href ='https://github.com/facebookresearch/cc_net'>Code</a>     |  More broadly filtered versions middle&tail available too
-EU Book Shop                                              | 2.3 GB / 2.3b  |        | 
-News 2018                                             | 4.3 GB / 4.3b  |        | 
-Wortschatz Uni Leipzig                                             | > 20 * 200 mb |   Part of News 2018???     | <a href ='https://wortschatz.uni-leipzig.de/de/download/german'>Code</a> 
-Paracrawl                                            | 3.2 GB / 3.2b  |        | 
-Open Subtitles                                            | 1.3 GB / 288m Tokens  |        | 
-Open Legal Dump                                                    |   3.6 GB / 3.5b        | | <a href ='http://openlegaldata.io/research/2019/02/19/court-decision-dataset.html'>Announcment</a>        | Used by Deepset
+Dataset                                                                  | Raw Size    /Characters                                                               | Quality/Filtered?                                            | URL| Notes/Status | Dupe Factor | Total = 178 GB
+---------------------------------------------------------------------------- | ---------------------------------------------------------------- | -------------------------------------------------------- | ----------------------------------------------- | ---------------------------------- | --------------- | ---------------------------------
+German Wikipedia Dump + Comments                                        |  5.4 GB / 5.3b   |      ++       |       |   | 10 | 54 GB = 30 % 
+Oscar Corpus (Common Crawl 2018-47)                                       |  145 GB / 21b Words  |            |  <a href ='https://oscar-corpus.com/'>Downlaod</a>     |  | ----- | ------
+FB cc_net (Common Crawl 2019-09 )                                       |  Head 75 GB |  +        |  <a href ='https://github.com/facebookresearch/cc_net'>Code</a>     |  More broadly filtered versions middle&tail available too  |  1 | 75 GB : 42 %
+EU Book Shop                                              | 2.3 GB / 2.3b  |   +     |  | | 5 | 11.5 GB: 6.5 %
+News 2018                                             | 4.3 GB / 4.3b  |     +   | | | 5 | 20 GB: 11 % 
+Wortschatz Uni Leipzig                                             | > 20 * 200 mb |   Part of News 2018???     | <a href ='https://wortschatz.uni-leipzig.de/de/download/german'>Code</a>  | | ---- | ----
+Paracrawl                                            | 3.2 GB / 3.2b  |   --     |     |    | --- |  ----
+Open Subtitles                                            | 1.3 GB / 288m Tokens  |    o    |  |   | 2  |  2.6 GB : 1.5 % 
+Open Legal Dump                                                    |   3.6 GB / 3.5b        | + | <a href ='http://openlegaldata.io/research/2019/02/19/court-decision-dataset.html'>Announcment</a>        | Used by Deepset | 5 | 15 GB: 8.4 % 
 Corpus of German-Language Fiction (txt) | 2735 Prose Works  |        |  <a href ='https://figshare.com/articles/Corpus_of_German-Language_Fiction_txt_/4524680/1'>Download</a> | Old (1510-1940)
 
 https://ofai.github.io/million-post-corpus/
