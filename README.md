@@ -42,6 +42,8 @@ Training
 - Pre-training SmallBERTa - A tiny model to train on a tiny dataset: https://gist.github.com/aditya-malte/2d4f896f471be9c38eb4d723a710768b
 - Pretraining RoBERTa using your own data(Fairseq): https://github.com/pytorch/fairseq/blob/master/examples/roberta/README.pretraining.md
 - How to train a new language model from scratch using Transformers and Tokenizers: https://huggingface.co/blog/how-to-train
+- Language model training: https://github.com/huggingface/transformers/tree/master/examples/language-modeling
+- How to train a new language model from scratch using Transformers and Tokenizers: https://colab.research.google.com/github/huggingface/blog/blob/master/notebooks/01_how_to_train.ipynb
 
 ###  NLP Libs 
 - [Fairseq](https://fairseq.readthedocs.io/) - [GitHub](https://github.com/pytorch/fairseq)
