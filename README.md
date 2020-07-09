@@ -41,6 +41,7 @@ https://ofai.github.io/million-post-corpus/
 Training
 - Pre-training SmallBERTa - A tiny model to train on a tiny dataset: https://gist.github.com/aditya-malte/2d4f896f471be9c38eb4d723a710768b
 - Pretraining RoBERTa using your own data(Fairseq): https://github.com/pytorch/fairseq/blob/master/examples/roberta/README.pretraining.md
+- How to train a new language model from scratch using Transformers and Tokenizers: https://huggingface.co/blog/how-to-train
 
 ###  NLP Libs 
 - [Fairseq](https://fairseq.readthedocs.io/) - [GitHub](https://github.com/pytorch/fairseq)
