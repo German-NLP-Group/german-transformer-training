@@ -23,6 +23,7 @@ import gzip
 import pdb
 from multiprocessing import Pool
 import subprocess
+import socket
     
 # =============================================================================
 # 2nd Approch nearly keep the raw data
@@ -30,6 +31,8 @@ import subprocess
 from somajo import SoMaJo
 from tqdm import tqdm
 import ray
+
+import pathlib
 
 
 @ray.remote
@@ -42,7 +45,7 @@ def split(list_of_text, thread_number, TMP_DIR):
     print(os.path.join(TMP_DIR, "Splitted_{:05d}.txt".format(thread_number)))
     outF = open(os.path.join(TMP_DIR, "Splitted_{:05d}.txt".format(thread_number)), "w")
     tokenizer = SoMaJo("de_CMC", split_camel_case=True)
-    for part in tqdm(list_of_text):
+    for part in list_of_text:
         sentences = tokenizer.tokenize_text([part])
         for sentence in sentences:
             output = ""
@@ -69,24 +72,42 @@ def chunks(lst, n):
         yield lst[i:i + n]
         
         
-def read_file(path): 
+def read_file(path, TRANSFER_DIR=None): 
     """
     Read and extracts all Files in Input Path
     """
-    for file in os.listdir(path): 
-        file_path = os.path.join(path, file)
-        if file.endswith('.gz'):
-            #with gzip.open() as f_in: 
-            with gzip.open(file_path, 'rt', encoding='ascii') as zipfile:
-                data = json.load(zipfile)
+    if path.startswith('gs'):
+        from google.cloud import storage
+        p = pathlib.Path(path)
+        storage_client = storage.Client()
+        file_list = storage_client.list_blobs(p.parts[1], prefix="/".join(p.parts[2:]))
+        #print(file_list))
+
+        
+    else:
+        file_list = os.listdir(path)
+    
+    for file in file_list: 
+        print(file)
+        if path.startswith('gs'): #Copy files from storage to local HDD first 
             pdb.set_trace()
-            """
-            with gzip.GzipFile(file_path, 'r') as fin:
-                data = fin.read() 
-                data = data.decode('utf-8') 
-                data = json.loads(data)  
-                #raw_text = f_in.read()
-            """
+            #bucket = storage_client.bucket(p.parts[1])
+            #blob = bucket.blob("/".join(p.parts[2:]))
+            file.download_to_file(TRANSFER_DIR)
+
+            print("Blob {} downloaded to {}.".format(p.parts[2:],TRANSFER_DIR))
+            file_path = os.path.join(TRANSFER_DIR, file)
+        else:
+            file_path = os.path.join(path, file)
+            
+        if file.endswith('.gz'):
+            data = []
+            with gzip.open(file_path, 'rt', encoding='utf-8') as zipfile:
+                for line in zipfile: 
+                    scraped = json.loads(line)
+                    data.append(scraped['raw_content'])
+                    
+                    
         elif file.endswith('.txt'):
             with open(file_path) as f:
                 raw_text = f.readlines()
@@ -102,7 +123,7 @@ def read_file(path):
  
 
 def run_command(cmd_vars):
-    bert_pretraining_cmd = """python {}create_pretraining_data.py \
+    bert_pretraining_cmd = """python3 {}create_pretraining_data.py \
                       --input_file={} \
                       --output_file={}/tf_examples.tfrecord_{:05d} \
                       --vocab_file=../data/bert_german-vocab.txt \
@@ -123,29 +144,47 @@ def run_command(cmd_vars):
         
         
 if __name__ == '__main__':  
-    THREADS = 8
-    IN_DIR = "/media/data/48_BERT/german-transformer-training/data/head"
-    TMP_DIR = "/media/data/48_BERT/german-transformer-training/data/tmp"
-    TF_OUT_DIR = "/media/data/48_BERT/german-transformer-training/data/tf_rec"
+    os.environ["GOOGLE_APPLICATION_CREDENTIALS"]=""
+    os.environ["GCLOUD_PROJECT"]=""
     
-    BERT_PATH = "../../01_BERT_Code/bert/"
+    #For local Debugging Purposes
+    if socket.gethostname() == "philipp-desktop": 
+        THREADS = 8
+        IN_DIR = "/media/data/48_BERT/german-transformer-training/data/head"  #Small file (400mb) 
+        IN_DIR = "/media/data/48_BERT/Common_Crawl/CC_german_head"
+        #IN_DIR = "gs://germanbert/German_BERT_Dataset/CC_german_head/"
+        #TRANSFER_DIR = "/media/data/48_BERT/german-transformer-training/data/download"
+        TMP_DIR = "/media/data/48_BERT/german-transformer-training/data/tmp"
+        TF_OUT_DIR = "/media/data/48_BERT/german-transformer-training/data/tf_rec"
+        
+        BERT_PATH = "../../01_BERT_Code/bert/"
     
-    """
-    ray.init(num_cpus=THREADS)
+    
+    else: #For large scale execution on server
+        THREADS = os.cpu_count()
+        IN_DIR = "/home/philipp_reissel/data/CC_german_head"
+        TMP_DIR = "/home/philipp_reissel/data/tmp"
+        TF_OUT_DIR = "/home/philipp_reissel/data/tf_rec"
+        BERT_PATH = "../../bert/"
+    
     
     files = read_file(IN_DIR)
+    
+    ray.init(num_cpus=THREADS)
     #a = list(files)
+    global_index = 0
     for file in files: 
         result_ids = []
         #1e4 for json,gz else 1e5 
         chunksize = int(1e4) #Needs XX GB RAM per Core
-        for index, chunk in enumerate(chunks(file, chunksize)):
+        for local_index, chunk in enumerate(chunks(file, chunksize)):
+            index = global_index + local_index
             result_ids.append(split.remote(chunk, index, TMP_DIR))
             
         results = ray.get(result_ids)
+        global_index = global_index + local_index
     
     ray.shutdown()
-    """
 
     cmd_var = []
     for index, file in enumerate(os.listdir(TMP_DIR)): 
