@@ -63,10 +63,10 @@ data_collator = DataCollatorForLanguageModeling(
 training_args = TrainingArguments(
     output_dir=save_dir,
     overwrite_output_dir=True,
-    num_train_epochs=1,  # &&& better set max_steps
-    #max_steps=500_000,  # &&& set this and not num_train_epochs
+    #num_train_epochs=1,  # &&& better set max_steps
+    max_steps=50_000,  # &&& set this and not num_train_epochs
     per_device_train_batch_size=batch_size,  # per_gpu_train_batch_size is depricated
-    save_steps=1_00,  # must be changed
+    save_steps=10_000,  # must be changed
     # tpu_num_cores
     save_total_limit=2,  # must be changed
     )
