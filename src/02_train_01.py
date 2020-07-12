@@ -10,8 +10,9 @@ text_corpus_file = '/home/phmay/data/ml-data/gtt/dewiki-talk-20200620-split/xaa'
 
 # hyperparameter
 tokenizer_max_len = 512
-vocab_size = 52_000  # must be same as in tokenizer-preprocessing
-batch_size = 8
+vocab_size = 50_265  # must be same as in tokenizer-preprocessing
+batch_size = 8  # set to 8_000 for real training
+max_steps = 20_000  # set to 500_000 for real training
 
 # https://github.com/huggingface/transformers/blob/dc31a72f505bc115a2214a68c8ea7c956f98fd1b/src/transformers/configuration_roberta.py#L36
 # https://github.com/huggingface/transformers/blob/dc31a72f505bc115a2214a68c8ea7c956f98fd1b/src/transformers/configuration_bert.py#L53
@@ -20,9 +21,10 @@ config = RobertaConfig(
     max_position_embeddings=tokenizer_max_len + 2,  # other ppl set it to 514 (seems like tokenizer_max_len + 2)
     num_attention_heads=12,
     num_hidden_layers=6,
-    type_vocab_size=1,  # what does this mean?
+    type_vocab_size=1,  # what does this mean? - others also set it to 1
     )
 
+# this happens when max_position_embeddings is set to tokenizer_max_len without adding 2
 # RuntimeError: CUDA error: CUBLAS_STATUS_EXECUTION_FAILED when calling `cublasSgemm( handle, opa, opb, m, n, k, &alpha, a, lda, b, ldb, &beta, c, ldc)`
 
 # https://github.com/huggingface/transformers/blob/dc31a72f505bc115a2214a68c8ea7c956f98fd1b/src/transformers/tokenization_roberta.py#L261
@@ -66,7 +68,7 @@ training_args = TrainingArguments(
     output_dir=save_dir,
     overwrite_output_dir=True,
     #num_train_epochs=1,  # &&& better set max_steps
-    max_steps=50_000,  # &&& set this and not num_train_epochs - does not seem to work!!!
+    max_steps=max_steps,  # &&& set this and not num_train_epochs - does not seem to work!!!
     per_device_train_batch_size=batch_size,  # per_gpu_train_batch_size is depricated
     save_steps=10_000,  # must be changed
     # tpu_num_cores
