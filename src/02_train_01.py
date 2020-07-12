@@ -11,7 +11,7 @@ text_corpus_file = '/home/phmay/data/ml-data/gtt/dewiki-talk-20200620-split/xaa'
 # hyperparameter
 tokenizer_max_len = 512
 vocab_size = 52_000  # must be same as in tokenizer-preprocessing
-batch_size = 24
+batch_size = 16
 
 # https://github.com/huggingface/transformers/blob/dc31a72f505bc115a2214a68c8ea7c956f98fd1b/src/transformers/configuration_roberta.py#L36
 # https://github.com/huggingface/transformers/blob/dc31a72f505bc115a2214a68c8ea7c956f98fd1b/src/transformers/configuration_bert.py#L53
@@ -63,7 +63,8 @@ data_collator = DataCollatorForLanguageModeling(
 training_args = TrainingArguments(
     output_dir=save_dir,
     overwrite_output_dir=True,
-    num_train_epochs=1,  # better set max_steps
+    num_train_epochs=1,  # &&& better set max_steps
+    #max_steps=500_000,  # &&& set this and not num_train_epochs
     per_device_train_batch_size=batch_size,  # per_gpu_train_batch_size is depricated
     save_steps=1_00,  # must be changed
     # tpu_num_cores
