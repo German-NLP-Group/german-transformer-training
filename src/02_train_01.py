@@ -11,7 +11,7 @@ text_corpus_file = '/home/phmay/data/ml-data/gtt/dewiki-talk-20200620-split/xaa'
 # hyperparameter
 tokenizer_max_len = 512
 vocab_size = 52_000  # must be same as in tokenizer-preprocessing
-batch_size = 32
+batch_size = 24
 
 # https://github.com/huggingface/transformers/blob/dc31a72f505bc115a2214a68c8ea7c956f98fd1b/src/transformers/configuration_roberta.py#L36
 # https://github.com/huggingface/transformers/blob/dc31a72f505bc115a2214a68c8ea7c956f98fd1b/src/transformers/configuration_bert.py#L53
