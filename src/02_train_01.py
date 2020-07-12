@@ -17,11 +17,13 @@ batch_size = 8
 # https://github.com/huggingface/transformers/blob/dc31a72f505bc115a2214a68c8ea7c956f98fd1b/src/transformers/configuration_bert.py#L53
 config = RobertaConfig(
     vocab_size=vocab_size,
-    max_position_embeddings=tokenizer_max_len,
+    max_position_embeddings=tokenizer_max_len + 2,  # other ppl set it to 514 (seems like tokenizer_max_len + 2)
     num_attention_heads=12,
     num_hidden_layers=6,
     type_vocab_size=1,  # what does this mean?
     )
+
+# RuntimeError: CUDA error: CUBLAS_STATUS_EXECUTION_FAILED when calling `cublasSgemm( handle, opa, opb, m, n, k, &alpha, a, lda, b, ldb, &beta, c, ldc)`
 
 # https://github.com/huggingface/transformers/blob/dc31a72f505bc115a2214a68c8ea7c956f98fd1b/src/transformers/tokenization_roberta.py#L261
 # https://github.com/huggingface/transformers/blob/dc31a72f505bc115a2214a68c8ea7c956f98fd1b/src/transformers/tokenization_utils_base.py#L1093
@@ -64,7 +66,7 @@ training_args = TrainingArguments(
     output_dir=save_dir,
     overwrite_output_dir=True,
     #num_train_epochs=1,  # &&& better set max_steps
-    max_steps=50_000,  # &&& set this and not num_train_epochs
+    max_steps=50_000,  # &&& set this and not num_train_epochs - does not seem to work!!!
     per_device_train_batch_size=batch_size,  # per_gpu_train_batch_size is depricated
     save_steps=10_000,  # must be changed
     # tpu_num_cores
