@@ -11,13 +11,13 @@ text_corpus_file = '/home/phmay/data/ml-data/gtt/dewiki-talk-20200620-split/xaa'
 # hyperparameter
 tokenizer_max_len = 512
 vocab_size = 52_000  # must be same as in tokenizer-preprocessing
-batch_size = 16
+batch_size = 8
 
 # https://github.com/huggingface/transformers/blob/dc31a72f505bc115a2214a68c8ea7c956f98fd1b/src/transformers/configuration_roberta.py#L36
 # https://github.com/huggingface/transformers/blob/dc31a72f505bc115a2214a68c8ea7c956f98fd1b/src/transformers/configuration_bert.py#L53
 config = RobertaConfig(
     vocab_size=vocab_size,
-    max_position_embeddings=514,
+    max_position_embeddings=tokenizer_max_len,
     num_attention_heads=12,
     num_hidden_layers=6,
     type_vocab_size=1,  # what does this mean?
