@@ -24,6 +24,7 @@ import pdb
 from multiprocessing import Pool
 import subprocess
 import socket
+from bs4 import BeautifulSoup
     
 # =============================================================================
 # 2nd Approch nearly keep the raw data
@@ -76,6 +77,13 @@ def read_file(path, TRANSFER_DIR=None):
     """
     Read and extracts all Files in Input Path
     """
+    #Select right json keyword: 
+    global TYPE
+    if TYPE == 'CC': 
+        json_key = 'raw_content'
+    elif TYPE == 'LEGALDUMP':
+        json_key = 'content'
+    
     if path.startswith('gs'):
         from google.cloud import storage
         p = pathlib.Path(path)
@@ -105,7 +113,11 @@ def read_file(path, TRANSFER_DIR=None):
             with gzip.open(file_path, 'rt', encoding='utf-8') as zipfile:
                 for line in zipfile: 
                     scraped = json.loads(line)
-                    data.append(scraped['raw_content'])
+                    #Only take really good parts
+                    if scraped["language_score"] > 0.98:
+                        data.append(scraped[json_key])
+                    else: 
+                        print(scraped[json_key])
                     
                     
         elif file.endswith('.txt'):
@@ -117,7 +129,10 @@ def read_file(path, TRANSFER_DIR=None):
             data = []
             for line in open(file_path, 'r'):
                 scraped = json.loads(line)
-                data.append(scraped['raw_content'])
+                data.append(scraped[json_key])
+            
+        if TYPE == 'LEGALDUMP': #HTML to Text Conversion
+            data = [BeautifulSoup(line).text for line in data]
             
         yield data
  
@@ -126,7 +141,7 @@ def run_command(cmd_vars):
     bert_pretraining_cmd = """python3 {}create_pretraining_data.py \
                       --input_file={} \
                       --output_file={}/tf_examples.tfrecord_{:05d} \
-                      --vocab_file=../data/bert_german-vocab.txt \
+                      --vocab_file=../../data/Vocab/german_uncased_vocab.txt \
                       --do_lower_case=True \
                       --max_seq_length=128 \
                       --max_predictions_per_seq=20 \
@@ -147,11 +162,17 @@ if __name__ == '__main__':
     os.environ["GOOGLE_APPLICATION_CREDENTIALS"]=""
     os.environ["GCLOUD_PROJECT"]=""
     
+    #Define source type here
+    TYPE = 'CC' 
+    #TYPE = 'LEGALDUMP'
+    
+    
     #For local Debugging Purposes
     if socket.gethostname() == "philipp-desktop": 
         THREADS = 8
         IN_DIR = "/media/data/48_BERT/german-transformer-training/data/head"  #Small file (400mb) 
         IN_DIR = "/media/data/48_BERT/Common_Crawl/CC_german_head"
+        #IN_DIR = "/media/data/48_BERT/Datasets/legal_dump"
         #IN_DIR = "gs://germanbert/German_BERT_Dataset/CC_german_head/"
         #TRANSFER_DIR = "/media/data/48_BERT/german-transformer-training/data/download"
         TMP_DIR = "/media/data/48_BERT/german-transformer-training/data/tmp"
@@ -181,6 +202,7 @@ if __name__ == '__main__':
             index = global_index + local_index
             result_ids.append(split.remote(chunk, index, TMP_DIR))
             
+        pdb.set_trace()
         results = ray.get(result_ids)
         global_index = global_index + local_index
     
@@ -209,11 +231,13 @@ if __name__ == '__main__':
     """
 # Takes 4 Minutes on 22 Cores for 1e6 Wiki lines (300 mb)
 
+from html.parser import HTMLParser
 
+import html 
 
-
-
-
+pars = HTMLParser()
+a1 = BeautifulSoup(file[0])
+a2 = html.unescape(file[0])
 
 
 
