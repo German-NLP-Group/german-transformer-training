@@ -16,7 +16,7 @@ special_tokens = [
     "[SEP]",
     "[MASK]"]
 
-for i in range(200):
+for i in range(767-5):
     special_tokens.append('[unused{}]'.format(i))
 
 tokenizer = BertWordPieceTokenizer()
