@@ -1,4 +1,4 @@
-#Custom Paths 
+#Custom Paths
 data/
 output/
 
@@ -143,3 +143,4 @@ dmypy.json
 # Cython debug symbols
 cython_debug/
 
+mlruns
