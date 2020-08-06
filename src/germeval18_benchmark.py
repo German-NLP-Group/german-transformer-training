@@ -92,5 +92,6 @@ if __name__ == "__main__":
         best_score = doc_classifcation()
         best_score_list.append(best_score)
 
+    print('all best scores:', best_score_list)
     score = np.mean(best_score_list)
     print('final score:', score)
