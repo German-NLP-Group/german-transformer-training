@@ -16,7 +16,7 @@ from farm.utils import initialize_device_settings
 def doc_classifcation():
     n_epochs = 1
     batch_size = 32
-    evaluate_every = 20
+    evaluate_every = 15
     lang_model = "/home/phmay/data/nlp/checkpoints_256/model-electra"
     #lang_model = "dbmdz/electra-base-german-europeana-cased-generator"
     #lang_model = "bert-base-german-cased"
@@ -36,7 +36,8 @@ def doc_classifcation():
                                             data_dir=Path("./data/germeval18"),
                                             label_list=label_list,
                                             metric=metric,
-                                            label_column_name="coarse_label"
+                                            dev_filename="test.tsv",  # we want to evaluate against test
+                                            label_column_name="coarse_label",
                                             )
 
     data_silo = DataSilo(

@@ -143,4 +143,7 @@ dmypy.json
 # Cython debug symbols
 cython_debug/
 
-mlruns
+mlruns/
+.vscode/
+saved_models/
+vocab_*/
