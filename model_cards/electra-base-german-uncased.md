@@ -41,3 +41,7 @@ This model was trained and open sourced in equal parts by:
 ## Pre-training details
 
 ## Performance on downstream tasks
+
+| Model Name                          | GermEval18 |
+|-------------------------------------|------------|
+| electra-base-german-uncased         | 0.0        |
