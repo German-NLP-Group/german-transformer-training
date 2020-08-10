@@ -126,3 +126,7 @@ It took about 7 Days on a preemtible TPU V3-8. For an automatically recreation o
 
 
 ## Performance on downstream tasks
+
+| Model Name                          | GermEval18 |
+|-------------------------------------|------------|
+| electra-base-german-uncased         | 0.0        |
