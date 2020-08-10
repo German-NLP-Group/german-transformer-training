@@ -1,5 +1,7 @@
+import logging
 from pathlib import Path
 import numpy as np
+from tqdm import tqdm
 
 from transformers import AutoTokenizer
 
@@ -11,25 +13,49 @@ from farm.modeling.language_model import LanguageModel
 from farm.modeling.prediction_head import TextClassificationHead
 from farm.train import Trainer, EarlyStopping
 from farm.utils import initialize_device_settings
+from farm.modeling.tokenization import Tokenizer
 
+n_epochs = 1
+batch_size = 32
+evaluate_every = 15
+cp_num = 650_000
+repeats = 31
+do_lower_case = True
+lang_model = "/home/phmay/data/nlp/checkpoints_256/model-electra"
+#lang_model = "/home/phmay/data/nlp/checkpoints_128/model-electra"
+#lang_model = "dbmdz/electra-base-german-europeana-cased-generator"
+#lang_model = "bert-base-german-cased"
+
+
+# https://huggingface.co/dbmdz/bert-base-german-cased
+#lang_model = "dbmdz/bert-base-german-cased"
+
+# https://huggingface.co/dbmdz/bert-base-german-uncased
+#lang_model = "dbmdz/bert-base-german-uncased"
+
+# https://huggingface.co/distilbert-base-german-cased
+#lang_model = "distilbert-base-german-cased"
+
+# https://huggingface.co/dbmdz/bert-base-german-europeana-cased
+#lang_model = "dbmdz/bert-base-german-europeana-cased"
+
+# https://huggingface.co/dbmdz/electra-base-german-europeana-cased-discriminator'
+#lang_model = "dbmdz/electra-base-german-europeana-cased-discriminator"
+
+# https://huggingface.co/dbmdz/bert-base-german-europeana-uncased
+#lang_model = "dbmdz/bert-base-german-europeana-uncased"
+
+use_amp = None
+label_list = ["OTHER", "OFFENSE"]
+metric = "f1_macro"
 
 def doc_classifcation():
-    n_epochs = 1
-    batch_size = 32
-    evaluate_every = 15
-    lang_model = "/home/phmay/data/nlp/checkpoints_256/model-electra"
-    #lang_model = "dbmdz/electra-base-german-europeana-cased-generator"
-    #lang_model = "bert-base-german-cased"
-    use_amp = None
-    label_list = ["OTHER", "OFFENSE"]
-    metric = "f1_macro"
-
     device, n_gpu = initialize_device_settings(use_cuda=True, use_amp=use_amp)
 
     tokenizer = AutoTokenizer.from_pretrained(lang_model, strip_accents=False)
     #tokenizer = Tokenizer.load(
     #    pretrained_model_name_or_path=lang_model,
-    #    do_lower_case=False)
+    #    do_lower_case=do_lower_case)
 
     processor = TextClassificationProcessor(tokenizer=tokenizer,
                                             max_seq_len=128,
@@ -88,10 +114,12 @@ def doc_classifcation():
 
 if __name__ == "__main__":
     best_score_list = []
-    for _ in range(5):
+    for _ in tqdm(range(repeats)):
         best_score = doc_classifcation()
         best_score_list.append(best_score)
 
     print('all best scores:', best_score_list)
     score = np.mean(best_score_list)
-    print('final score:', score)
+    std = np.std(best_score_list)
+    print('mean F1 macro of {} runs for checkpoint {}: {} with standard deviation: {}'.format(repeats, cp_num, score, std))
+    print('on:', lang_model, "with do_lower_case:", do_lower_case)
