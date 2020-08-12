@@ -39,7 +39,7 @@ branch:
 `pip install git+https://github.com/huggingface/transformers.git -U`
 
 ## Creators
-This model was trained and open sourced in equal parts by:
+This model was trained and open sourced in conjunction with the **German NLP Group** in equal parts by:
 - [Philip May](https://eniak.de) - [T-Systems on site services GmbH](https://www.t-systems-onsite.de/)
 - [Philipp Reißel](https://www.reissel.eu) - [ambeRoad](https://amberoad.de/)
 
