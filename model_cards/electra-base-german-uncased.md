@@ -45,7 +45,7 @@ This model was trained and open sourced in equal parts by:
 
 ## Performance on downstream tasks
 
-| Model Name                          | GermEval18<br/>Median of 15 runs</br>F1 macro (1) |
+| Model Name                          | GermEval18 Coarse<br/>Median of 15 runs</br>F1 macro (1) |
 |-------------------------------------|---------------------------------------------------|
 | electra-base-german-uncased         | 0.0                                               |
 | bert-base-german-cased              | 0.0                                               |
