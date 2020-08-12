@@ -39,6 +39,12 @@ This model was trained and open sourced in equal parts by:
 - [Philip May](https://eniak.de) - [T-Systems on site services GmbH](https://www.t-systems-onsite.de/)
 - [Philipp Reißel](https://www.reissel.eu) - [ambeRoad](https://amberoad.de/)
 
+## Performance on downstream tasks
+
+| Model Name                          | GermEval18 |
+|-------------------------------------|------------|
+| electra-base-german-uncased         | 0.0        |
+
 ## Pre-training details
 
 ### Data 
@@ -71,9 +77,7 @@ The resulting TF Dataset is about xx GB in size.
 The training itself can be performed with the Original Electra Repo (No special case for this needed). 
 We run it with the following Config: 
 
-
-<details>
-  <summary>The exact Training Config</summary>
+### The exact Training Config
 ```
 debug False
 disallow_correct False
@@ -120,16 +124,9 @@ vocab_file gs://XXX
 vocab_size 32767
 weight_decay_rate 0.01
 ```
-</details>
 
 ![Training Loss](loss.png)
+
 Please Note: *Due to the GAN like strucutre of Electra the loss is not that meaningful* 
 
 It took about 7 Days on a preemtible TPU V3-8. For an automatically recreation of a cancelled TPUs we used [tpuicorn](https://github.com/shawwn/tpunicorn). The total cost of training summed up to about 450 $ for one run. The Data-pre processing and Vocab Creation needed approximately 500-1000 CPU hours. Servers were fully provided by our partners [T-SYSTEMS ON SITE SERVICES GMBH](https://www.t-systems-onsite.de/), ambeRoad [amberoad](https://amberoad.de/) and Google through the [Tensorflow Research Cloud](https://www.tensorflow.org/tfrc). 
-
-
-## Performance on downstream tasks
-
-| Model Name                          | GermEval18 |
-|-------------------------------------|------------|
-| electra-base-german-uncased         | 0.0        |
