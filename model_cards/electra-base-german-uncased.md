@@ -129,4 +129,4 @@ weight_decay_rate 0.01
 
 Please Note: *Due to the GAN like strucutre of Electra the loss is not that meaningful* 
 
-It took about 7 Days on a preemtible TPU V3-8. For an automatically recreation of a cancelled TPUs we used [tpunicorn](https://github.com/shawwn/tpunicorn). The total cost of training summed up to about 450 $ for one run. The Data-pre processing and Vocab Creation needed approximately 500-1000 CPU hours. Servers were fully provided by [T-Systems on site services GmbH](https://www.t-systems-onsite.de/), ambeRoad [amberoad](https://amberoad.de/) and Google through the [Tensorflow Research Cloud](https://www.tensorflow.org/tfrc). 
+It took about 7 Days on a preemtible TPU V3-8. For an automatically recreation of a cancelled TPUs we used [tpunicorn](https://github.com/shawwn/tpunicorn). The total cost of training summed up to about 450 $ for one run. The Data-pre processing and Vocab Creation needed approximately 500-1000 CPU hours. Servers were fully provided by [T-Systems on site services GmbH](https://www.t-systems-onsite.de/), [ambeRoad](https://amberoad.de/) and Google through the [Tensorflow Research Cloud](https://www.tensorflow.org/tfrc). 
