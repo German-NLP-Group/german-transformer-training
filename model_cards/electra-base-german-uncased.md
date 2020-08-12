@@ -74,6 +74,7 @@ We run it with the following Config:
 
 <details>
   <summary>The exact Training Config</summary>
+```
 debug False
 disallow_correct False
 disc_weight 50.0
@@ -118,6 +119,7 @@ use_tpu True
 vocab_file gs://XXX
 vocab_size 32767
 weight_decay_rate 0.01
+```
 </details>
 
 ![Training Loss](loss.png)
