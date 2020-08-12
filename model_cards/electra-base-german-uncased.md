@@ -65,15 +65,7 @@ This model was trained and open sourced in conjunction with the **German NLP Gro
 - OpenSubtitles - 823 MB
 - News 2018 - 4.1 GB
 
-Everything was split in sentences through with [SojaMo](https://github.com/tsproisl/SoMaJo)  
-We took the Wikipedia Dump 3x to oversample it as it has a better quality than Common Crawl Data. This results in the following Distribution of our Data: 
-
-
-Dataset                                                                  | Raw Size                                                               | Quality/Filtered                                         | URL | Oversampling Factor | Total Size = 29 GB gzip
----------------------------------------------------------------------------- | ---------------------------------------------------------------- | -------------------------------------------------------- | ----------------------------------------------- | ---------------------------------- | --------------- |
-German Wikipedia Dump + Comments                                        |  5.4 GB   |      ++       |   [Download](http://ftp.acc.umu.se/mirror/wikimedia.org/dumps/dewiki/)    |  3 | 10 | 54 GB = 30 
-FB cc_net (Common Crawl 2019-09 )                                       |  Head 75 GB |  +        |  <a href ='https://github.com/facebookresearch/cc_net'>Code</a>     |  1  |  1 | 75 GB : 42 %
-Open Subtitles                                            | 1.3 GB  |    o    |  | ???  | 2  |  2.6 GB : 1.5 % 
+The sentences were split with [SojaMo](https://github.com/tsproisl/SoMaJo). We took the German Wikipedia Article Pages Dump 3x to oversample it as it has a better quality than Common Crawl Data.
 
 More Details can be found here [Preperaing Datasets for German Electra Github](https://github.com/PhilipMay/german-transformer-training)
 
