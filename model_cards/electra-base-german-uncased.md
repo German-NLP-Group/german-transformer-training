@@ -43,9 +43,10 @@ This model was trained and open sourced in equal parts by:
 
 ### Data 
 - Cleaned Common Crawl Corpus 2019-09 German: [CC_net Github](https://github.com/facebookresearch/cc_net) (Only head coprus and filtered for language_score > 0.98)
-- Wikipedia Dump 
+- German Wikipedia Article Pages Dump (20200701)
+- German Wikipedia Talk Pages Dump (20200620)
 - OpenSubtitles
-- Wikipedia Discusiions 
+- News 2018
 
 Everything was split in sentences through with [SojaMo](https://github.com/tsproisl/SoMaJo)  
 We took the Wikipedia Dump 3x to oversample it as it has a better quality than Common Crawl Data. This results in the following Distribution of our Data: 
