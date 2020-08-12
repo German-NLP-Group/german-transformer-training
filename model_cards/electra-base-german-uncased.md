@@ -41,7 +41,7 @@ This model was trained and open sourced in equal parts by:
 
 ## Performance on downstream tasks
 
-| Model Name                          | GermEval18 (1)<br/>F1 macro |
+| Model Name                          | GermEval18<br/>F1 macro (1) |
 |-------------------------------------|-----------------------------|
 | electra-base-german-uncased         | 0.0                         |
 
