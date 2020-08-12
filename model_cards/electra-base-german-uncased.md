@@ -44,6 +44,11 @@ This model was trained and open sourced in equal parts by:
 | Model Name                          | GermEval18<br/>F1 macro (1) |
 |-------------------------------------|-----------------------------|
 | electra-base-german-uncased         | 0.0                         |
+| bert-base-german-cased              | 0.0                         |
+| dbmdz/bert-base-german-cased        | 0.0                         |
+| dbmdz/bert-base-german-uncased      | 0.0                         |
+| distilbert-base-german-cased        | 0.0                         |
+
 
 - (1): Hyperparameters taken from the [FARM project](https://farm.deepset.ai/) "[germEval18Coarse_config.json](https://github.com/deepset-ai/FARM/blob/master/experiments/german-bert2.0-eval/germEval18Coarse_config.json)"
 
