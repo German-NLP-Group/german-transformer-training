@@ -4,6 +4,9 @@ license: ???
 ---
 
 # electra-base-german-uncased
+<a href="https://huggingface.co/exbert/?model=bert-base-german-cased">
+	<img width="300px" src="https://files.gitter.im/5ef78b07d73408ce4fe81246/bBV6/electrav4.png">
+</a>
 
 ## How to use
 **The usage description above - provided by Hugging Face - is wrong! Please use this:**
@@ -20,7 +23,6 @@ model = AutoModelWithLMHead.from_pretrained("model_name")
 ```python
 # TODO
 ```
-<img src="https://files.gitter.im/5ef78b07d73408ce4fe81246/bBV6/electrav4.png" width="40%">
 
 ## Case and Umlauts ('Ö', 'Ä', 'Ü')
 This model is uncased. We are convinced that capitalization does not add semantic value in German language.
