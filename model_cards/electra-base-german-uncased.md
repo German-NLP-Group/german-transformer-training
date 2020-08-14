@@ -1,12 +1,30 @@
 ---
 language: de
 license: mit
+thumbnail: "https://raw.githubusercontent.com/German-NLP-Group/german-transformer-training/master/model_cards/german-electra-logo.png"
+tags:
+- electra
+- german
+- deutsch
+- commoncrawl
+- base 
+- uncased
+- umlaute
+- BERT
 ---
 
 # German Electra Uncased
 <img width="300px" src="https://raw.githubusercontent.com/German-NLP-Group/german-transformer-training/master/model_cards/german-electra-logo.png"> 
 [¹]
 
+
+# Model Info
+
+This Model is suitable for Training on many downstream tasks in German (Q&A, Sentiment Analysis, etc.).
+
+It can be used as a drop-in Replacement for **BERT** in most down-stream tasks (**ELECTRA** is even implemented as an extended **BERT** Class). 
+
+On the time of the realse (August 2020) this Model is the best performing publicly available German NLP Model on various German Evaluation Metrics (CONLL, GermEval19 Coarse, GermEval19 Fine). 
 
 ## Installation
 
