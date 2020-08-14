@@ -3,7 +3,7 @@ language: de
 license: mit
 ---
 
-# electra-base-german-uncased
+# German Electra Uncased
 <a href="https://huggingface.co/exbert/?model=bert-base-german-cased">
 	<img width="300px" src="https://files.gitter.im/5ef78b07d73408ce4fe81246/bBV6/electrav4.png">
 </a>
