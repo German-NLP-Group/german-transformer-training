@@ -44,6 +44,9 @@ This model was trained and open sourced in conjunction with the **German NLP Gro
 
 ![GermEval18 Coarse Model Evaluation](https://raw.githubusercontent.com/German-NLP-Group/german-transformer-training/master/model_cards/model_eval.png)
 
+## Checkpoint evaluation
+Since it it not garanteed that the last checkpoint is the best checkpoint we evaluated the checkpoints on GermEval18. We found that the last checkpoint is the best, which is a good sign. The training was stable and did not overfit the text corpus. Below is a boxplot chart showing the different checkpoints.
+
 ## Pre-training details
 
 ### Data 
