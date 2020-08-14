@@ -30,7 +30,7 @@ model = AutoModelWithLMHead.from_pretrained("model_name")
 ```
 
 ### FARM Usage
-To use [FARM](https://farm.deepset.ai/) just do not use `farm.modeling.tokenization.Tokenizer`. Instead directly instantiate a Transformers tokenizer like this:
+To use [FARM](https://farm.deepset.ai/) just do not use `farm.modeling.tokenization.Tokenizer`. Instead directly instantiate the Transformers tokenizer like this:
 
 ```python
 from transformers import AutoTokenizer
@@ -52,14 +52,16 @@ This model was trained and open sourced in conjunction with the **German NLP Gro
 
 ## Performance on downstream tasks
 
-| Model Name                          | GermEval18 Coarse<br/>Median of 15 runs</br>F1 macro (1) |
-|-------------------------------------|---------------------------------------------------|
-| electra-base-german-uncased         | 0.0                                               |
-| bert-base-german-cased              | 0.0                                               |
-| dbmdz/bert-base-german-cased        | 0.0                                               |
-| dbmdz/bert-base-german-uncased      | 0.0                                               |
-| distilbert-base-german-cased        | 0.0                                               |
-
+| Model Name                                              | GermEval18 Coarse<br/>Median of 15 runs</br>F1 macro (1) |
+|---------------------------------------------------------|----------------------------------------------------------|
+| bert-base-german-cased                                  | 0.0                                                      |
+| dbmdz/bert-base-german-cased                            | 0.0                                                      |
+| dbmdz/bert-base-german-uncased                          | 0.0                                                      |
+| dbmdz-bert-base-german-europeana-cased                  | 0.0                                                      |
+| dbmdz-bert-base-german-europeana-uncased                | 0.0                                                      |
+| dbmdz/electra-base-german-europeana-cased-discriminator | 0.0                                                      |
+| distilbert-base-german-cased                            | 0.0                                                      |
+| electra-base-german-uncased (our model)                 | 0.0                                                      |
 
 - (1): Hyperparameters taken from the [FARM project](https://farm.deepset.ai/) "[germEval18Coarse_config.json](https://github.com/deepset-ai/FARM/blob/master/experiments/german-bert2.0-eval/germEval18Coarse_config.json)"
 
