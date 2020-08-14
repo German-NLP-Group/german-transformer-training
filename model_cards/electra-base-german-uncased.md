@@ -20,7 +20,7 @@ model = AutoModelWithLMHead.from_pretrained("model_name")
 ```
 
 ### FARM Usage
-To use FARM just do not use `farm.modeling.tokenization.Tokenizer`. Instead directly instantiate a Transformers tokenizer like this:
+To use [FARM](https://farm.deepset.ai/) just do not use `farm.modeling.tokenization.Tokenizer`. Instead directly instantiate a Transformers tokenizer like this:
 
 ```python
 from transformers import AutoTokenizer
