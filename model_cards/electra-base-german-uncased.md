@@ -36,7 +36,7 @@ This model was trained and open sourced in conjunction with the **German NLP Gro
 | dbmdz/bert-base-german-uncased                          | mean: 0.770 - median: 0.770 - std: 0.00572               |
 | dbmdz-bert-base-german-europeana-cased                  | mean: 0.727 - median: 0.729 - std: 0.00674               |
 | dbmdz-bert-base-german-europeana-uncased                | mean: 0.736 - median: 0.737 - std: 0.00476               |
-| dbmdz/electra-base-german-europeana-cased-discriminator | -/-                                                      |
+| dbmdz/electra-base-german-europeana-cased-discriminator | mean: 0.745 - median: 0.745 - std: 0.00498               |
 | distilbert-base-german-cased                            | mean: 0.752 - median: 0.752 - std: 0.00341               |
 | electra-base-german-uncased (our model)                 | **mean: 0.778 - median: 0.778 - std: 0.00392**           |
 
