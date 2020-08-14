@@ -78,7 +78,7 @@ The sentences were split with [SojaMo](https://github.com/tsproisl/SoMaJo). We t
 
 More Details can be found here [Preperaing Datasets for German Electra Github](https://github.com/German-NLP-Group/german-transformer-training)
 
-### Electra Branch --no-strip-accents
+### Electra Branch no_strip_accents
 Because we do not want to stip accents in our training data we made a change to Electra and used this repo [Electra no_strip_accents](https://github.com/PhilipMay/electra/tree/no_strip_accents) (branch `no_strip_accents`). Then created the tf dataset with: 
 
 ```bash
