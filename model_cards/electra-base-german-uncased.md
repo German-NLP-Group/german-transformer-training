@@ -120,7 +120,7 @@ num_tpu_cores 8
 num_train_steps 766000
 num_warmup_steps 10000
 pretrain_tfrecords gs://XXX
-results_pkl gs://XXXu
+results_pkl gs://XXX
 results_txt gs://XXX
 save_checkpoints_steps 5000
 temperature 1.0
