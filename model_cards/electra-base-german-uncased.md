@@ -29,7 +29,7 @@ This model was trained and open sourced in conjunction with the **German NLP Gro
 
 ## Performance on downstream tasks
 
-| Model Name                                              | GermEval18 Coarse<br/>of >25 runs</br>F1 macro (1) |
+| Model Name                                              | GermEval18 Coarse</br>F1 macro<br/>of >25 runs (1) |
 |---------------------------------------------------------|----------------------------------------------------------|
 | bert-base-german-cased                                  | mean: 0.762 - median: 0.761 - std: 0.00597               |
 | dbmdz/bert-base-german-cased                            | mean: 0.765 - median: 0.765 - std: 0.00523               |
