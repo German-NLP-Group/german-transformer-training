@@ -76,7 +76,7 @@ This model was trained and open sourced in conjunction with the **German NLP Gro
 
 The sentences were split with [SojaMo](https://github.com/tsproisl/SoMaJo). We took the German Wikipedia Article Pages Dump 3x to oversample it as it has a better quality than Common Crawl Data.
 
-More Details can be found here [Preperaing Datasets for German Electra Github](https://github.com/PhilipMay/german-transformer-training)
+More Details can be found here [Preperaing Datasets for German Electra Github](https://github.com/German-NLP-Group/german-transformer-training)
 
 Due to the `strip_accent` command you have to clone this repo [Electra no_strip_accents](https://github.com/PhilipMay/electra/tree/no_strip_accents) and change to branch `no_strip_accents`. Then run the command for building the tf dataset: 
 
