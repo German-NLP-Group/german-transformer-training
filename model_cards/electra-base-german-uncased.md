@@ -7,7 +7,6 @@ license: mit
 <img width="300px" src="https://raw.githubusercontent.com/German-NLP-Group/german-transformer-training/master/model_cards/german-electra-logo.png">
 
 ## How to use
-**The usage description above - provided by Hugging Face - is wrong! Please see below.**
 
 ### Installation
 This model is uncased but does not does not strip accents.
@@ -18,14 +17,6 @@ Since Transformers has not been released since the PR #6280 was merged, you have
 branch: 
 
 `pip install git+https://github.com/huggingface/transformers.git -U`
-
-### Transformers Usage
-```python
-from transformers import AutoTokenizer, AutoModelWithLMHead
-
-tokenizer = AutoTokenizer.from_pretrained("model_name", strip_accents=False)
-model = AutoModelWithLMHead.from_pretrained("model_name")
-```
 
 ### FARM Usage
 To use [FARM](https://farm.deepset.ai/) just do not use `farm.modeling.tokenization.Tokenizer`. Instead directly instantiate the Transformers tokenizer like this:
