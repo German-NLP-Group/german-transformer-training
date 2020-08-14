@@ -4,7 +4,7 @@ license: mit
 ---
 
 # German Electra Uncased
-<img width="300px" src="https://files.gitter.im/5ef78b07d73408ce4fe81246/bBV6/electrav4.png">
+<img width="300px" src="https://raw.githubusercontent.com/German-NLP-Group/german-transformer-training/master/model_cards/german-electra-logo.png">
 
 ## How to use
 **The usage description above - provided by Hugging Face - is wrong! Please see below.**
