@@ -49,16 +49,16 @@ This model was trained and open sourced in conjunction with the **German NLP Gro
 
 ## Performance on downstream tasks
 
-| Model Name                                              | GermEval18 Coarse<br/>Median of >25 runs</br>F1 macro (1) |
+| Model Name                                              | GermEval18 Coarse<br/>of >25 runs</br>F1 macro (1) |
 |---------------------------------------------------------|----------------------------------------------------------|
-| bert-base-german-cased                                  | 0.0                                                      |
-| dbmdz/bert-base-german-cased                            | 0.0                                                      |
-| dbmdz/bert-base-german-uncased                          | 0.0                                                      |
-| dbmdz-bert-base-german-europeana-cased                  | 0.0                                                      |
-| dbmdz-bert-base-german-europeana-uncased                | 0.0                                                      |
-| dbmdz/electra-base-german-europeana-cased-discriminator | 0.0                                                      |
-| distilbert-base-german-cased                            | 0.0                                                      |
-| electra-base-german-uncased (our model)                 | 0.0                                                      |
+| bert-base-german-cased                                  | mean: 0.762 - median: 0.761 - std: 0.00597               |
+| dbmdz/bert-base-german-cased                            | mean: 0.765 - median: 0.765 - std: 0.00523               |
+| dbmdz/bert-base-german-uncased                          | mean: 0.770 - median: 0.770 - std: 0.00572               |
+| dbmdz-bert-base-german-europeana-cased                  | mean: 0.727 - median: 0.729 - std: 0.00674               |
+| dbmdz-bert-base-german-europeana-uncased                | mean: 0.736 - median: 0.737 - std: 0.00476               |
+| dbmdz/electra-base-german-europeana-cased-discriminator | -/-                                                      |
+| distilbert-base-german-cased                            | mean: 0.752 - median: 0.752 - std: 0.00341               |
+| electra-base-german-uncased (our model)                 | **mean: 0.778 - median: 0.778 - std: 0.00392**           |
 
 - (1): Hyperparameters taken from the [FARM project](https://farm.deepset.ai/) "[germEval18Coarse_config.json](https://github.com/deepset-ai/FARM/blob/master/experiments/german-bert2.0-eval/germEval18Coarse_config.json)"
 
