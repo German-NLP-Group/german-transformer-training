@@ -135,7 +135,7 @@ vocab_size 32767
 weight_decay_rate 0.01
 ```
 
-![Training Loss](loss.png)
+![Training Loss](https://raw.githubusercontent.com/German-NLP-Group/german-transformer-training/master/model_cards/loss.png)
 
 Please Note: *Due to the GAN like strucutre of Electra the loss is not that meaningful* 
 
