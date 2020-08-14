@@ -78,13 +78,12 @@ The sentences were split with [SojaMo](https://github.com/tsproisl/SoMaJo). We t
 
 More Details can be found here [Preperaing Datasets for German Electra Github](https://github.com/German-NLP-Group/german-transformer-training)
 
-Due to the `strip_accent` command you have to clone this repo [Electra no_strip_accents](https://github.com/PhilipMay/electra/tree/no_strip_accents) and change to branch `no_strip_accents`. Then run the command for building the tf dataset: 
+### Electra Branch --no-strip-accents
+Because we do not want to stip accents in our training data we made a change to Electra and used this repo [Electra no_strip_accents](https://github.com/PhilipMay/electra/tree/no_strip_accents) (branch `no_strip_accents`). Then created the tf dataset with: 
 
 ```bash
 python build_pretraining_dataset.py --corpus-dir <corpus_dir> --vocab-file <dir>/vocab.txt --output-dir ./tf_data --max-seq-length 512 --num-processes 8 --do-lower-case --no-strip-accents
 ```
-
-The resulting TF Dataset is about xx GB in size. 
 
 ## The training
 
