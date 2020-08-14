@@ -48,8 +48,8 @@ This model was trained and open sourced in conjunction with the **German NLP Gro
 - Cleaned Common Crawl Corpus 2019-09 German: [CC_net Github](https://github.com/facebookresearch/cc_net) (Only head coprus and filtered for language_score > 0.98) - 62 GB
 - German Wikipedia Article Pages Dump (20200701) - 5.5 GB
 - German Wikipedia Talk Pages Dump (20200620) - 1.1 GB
-- OpenSubtitles - 823 MB
-- News 2018 - 4.1 GB
+- Untertitel - 823 MB
+- Nachrichten 2018 - 4.1 GB
 
 The sentences were split with [SojaMo](https://github.com/tsproisl/SoMaJo). We took the German Wikipedia Article Pages Dump 3x to oversample it as it has a better quality than Common Crawl Data.
 
