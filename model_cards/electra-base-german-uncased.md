@@ -23,6 +23,8 @@ model = AutoModelWithLMHead.from_pretrained("model_name")
 To use FARM just do not use `farm.modeling.tokenization.Tokenizer`. Instead directly instantiate a Transformers tokenizer like this:
 
 ```python
+from transformers import AutoTokenizer
+
 tokenizer = AutoTokenizer.from_pretrained(lang_model, strip_accents=False)
 ```
 
