@@ -37,7 +37,7 @@ This model was trained and open sourced in conjunction with the [**German NLP Gr
 ## Evaluation: GermEval18 Coarse
 
 | Model Name                                              |</br>F1 macro<br/> Mean | </br>F1 macro<br/>Median | </br>F1 macro<br/>Std |
-|---|---|---|---|---|
+|---|---|---|---|
 | <span style="color:red">**ELECTRA-base-german-uncased** (this model)                 | <span style="color:red">**0.778** | **0.778** | **0.00392** |    
 | dbmdz/bert-base-german-uncased                          | 0.770 |  0.770 | 0.00572       | 
 | dbmdz/bert-base-german-cased                            | 0.765 | 0.765 | 0.00523        |
