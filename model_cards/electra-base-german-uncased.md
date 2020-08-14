@@ -80,7 +80,9 @@ More Details can be found here [Preperaing Datasets for German Electra Github](h
 
 Due to the `strip_accent` command you have to clone this repo [Electra no_strip_accents](https://github.com/PhilipMay/electra/tree/no_strip_accents) and change to branch `no_strip_accents`. Then run the command for building the tf dataset: 
 
-`python .......`
+```bash
+python build_pretraining_dataset.py --corpus-dir <corpus_dir> --vocab-file <dir>/vocab.txt --output-dir ./tf_data --max-seq-length 512 --num-processes 8 --do-lower-case --no-strip-accents
+```
 
 The resulting TF Dataset is about xx GB in size. 
 
