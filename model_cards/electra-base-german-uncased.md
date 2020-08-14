@@ -20,8 +20,10 @@ model = AutoModelWithLMHead.from_pretrained("model_name")
 ```
 
 ### FARM Usage
+To use FARM just do not use `farm.modeling.tokenization.Tokenizer`. Instead directly instantiate a Transformers tokenizer like this:
+
 ```python
-# TODO
+tokenizer = AutoTokenizer.from_pretrained(lang_model, strip_accents=False)
 ```
 
 ## Case and Umlauts ('Ö', 'Ä', 'Ü')
