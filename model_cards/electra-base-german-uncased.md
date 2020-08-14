@@ -6,9 +6,7 @@ license: mit
 # German Electra Uncased
 <img width="300px" src="https://raw.githubusercontent.com/German-NLP-Group/german-transformer-training/master/model_cards/german-electra-logo.png">
 
-## How to use
-
-### Installation
+## Installation
 This model is uncased but does not does not strip accents.
 The necessary parameter is `strip_accents=False` and needs to be set for the tokenizer.
 It was added to Transformers with [PR #6280](https://github.com/huggingface/transformers/pull/6280).
@@ -17,15 +15,6 @@ Since Transformers has not been released since the PR #6280 was merged, you have
 branch: 
 
 `pip install git+https://github.com/huggingface/transformers.git -U`
-
-### FARM Usage
-To use [FARM](https://farm.deepset.ai/) just do not use `farm.modeling.tokenization.Tokenizer`. Instead directly instantiate the Transformers tokenizer like this:
-
-```python
-from transformers import AutoTokenizer
-
-tokenizer = AutoTokenizer.from_pretrained(lang_model, strip_accents=False)
-```
 
 ## Case and Umlauts ('Ö', 'Ä', 'Ü')
 This model is uncased. We are convinced that capitalization does not add semantic value in German language.
