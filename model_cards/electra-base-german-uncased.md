@@ -39,8 +39,7 @@ tokenizer = AutoTokenizer.from_pretrained(lang_model, strip_accents=False)
 ## Case and Umlauts ('Ö', 'Ä', 'Ü')
 This model is uncased. We are convinced that capitalization does not add semantic value in German language.
 Quite the opposite is the case. Many words are written in lower case but in upper case at the beginning of 
-the sentence. The model would have to learn that these are the same words.
-
+the sentence. The model would have to learn that these are the same words. 
 However, the German umlauts do make a semantic difference. Therefore this model does not do without umlauts.
 
 ## Creators
