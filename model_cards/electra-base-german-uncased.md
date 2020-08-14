@@ -40,6 +40,8 @@ This model was trained and open sourced in conjunction with the **German NLP Gro
 | distilbert-base-german-cased                            | mean: 0.752 - median: 0.752 - std: 0.00341               |
 | electra-base-german-uncased (our model)                 | **mean: 0.778 - median: 0.778 - std: 0.00392**           |
 
+![GermEval18 Coarse Model Evaluation](https://raw.githubusercontent.com/German-NLP-Group/german-transformer-training/master/model_cards/model_eval.png)
+
 - (1): Hyperparameters taken from the [FARM project](https://farm.deepset.ai/) "[germEval18Coarse_config.json](https://github.com/deepset-ai/FARM/blob/master/experiments/german-bert2.0-eval/germEval18Coarse_config.json)"
 
 ## Pre-training details
