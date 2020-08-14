@@ -1,6 +1,6 @@
 ---
 language: de
-license: ???
+license: mit
 ---
 
 # electra-base-german-uncased
