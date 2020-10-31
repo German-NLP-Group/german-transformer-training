@@ -144,10 +144,41 @@ if __name__ == '__main__':
             "doc": { "$first": "$$ROOT" } 
         }}, 
         { "$replaceRoot": { "newRoot": "$doc" } },
-        { "$out": "main" }
+        { "$out": "dedup_hashes" }
     ], 
     allowDiskUse=True )
     end_time = time.time()
     print(end_time - start_time)
     print(table.count())
+    
+    
+    """
+    Create new table with deduplicated URLs
+    """
+    
+    print('Starting Deduplication URL')
+    import time 
+    start_time = time.time()
+    table.aggregate(    [ 
+        { "$sort": { "_id": 1 } }, 
+        { "$group": { 
+            "_id": "$url", 
+            "doc": { "$first": "$$ROOT" } 
+        }}, 
+        { "$replaceRoot": { "newRoot": "$doc" } },
+        { "$out": "dedup_url" }
+    ], 
+    allowDiskUse=True )
+    end_time = time.time()
+    print(end_time - start_time)
+    
+    table_url = db.dedup_url
+    print(table_url.count())
+    
+    
+    
+    
+    
+    
+    
     
