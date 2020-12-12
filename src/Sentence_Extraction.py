@@ -25,7 +25,8 @@ from multiprocessing import Pool
 import subprocess
 import socket
 from bs4 import BeautifulSoup
-    
+from tqdm import tqdm 
+
 # =============================================================================
 # 2nd Approch nearly keep the raw data
 # =============================================================================
@@ -111,13 +112,27 @@ def read_file(path, TRANSFER_DIR=None):
         if file.endswith('.gz'):
             data = []
             with gzip.open(file_path, 'rt', encoding='utf-8') as zipfile:
-                for line in zipfile: 
-                    scraped = json.loads(line)
+                if FIX_EXPORT_ERROR: 
+                    a = zipfile.readline()
+                    a = a.split("{'url'")
+                    a = [("{'url'" + item) for item in a]
+                for line in tqdm(a[1:]): 
+                #for line in zipfile: 
+                    #pdb.set_trace()
+                    #scraped = json.loads(line)
+                    try:
+                        scraped = eval(line)
+                    except ValueError:
+                        scraped = eval(line.replace(chr(0), ""))
+                    except SyntaxError:
+                        None
+                        
                     #Only take really good parts
                     if scraped["language_score"] > 0.98:
                         data.append(scraped[json_key])
-                    else: 
-                        print(scraped[json_key])
+                    else:
+                        None
+                        #print(scraped[json_key])
                     
                     
         elif file.endswith('.txt'):
@@ -141,9 +156,9 @@ def run_command(cmd_vars):
     bert_pretraining_cmd = """python3 {}create_pretraining_data.py \
                       --input_file={} \
                       --output_file={}/tf_examples.tfrecord_{:05d} \
-                      --vocab_file=../../data/Vocab/german_uncased_vocab.txt \
+                      --vocab_file={} \
                       --do_lower_case=True \
-                      --max_seq_length=128 \
+                      --max_seq_length=512 \
                       --max_predictions_per_seq=20 \
                       --masked_lm_prob=0.15 \
                       --random_seed=12345 \
@@ -151,7 +166,7 @@ def run_command(cmd_vars):
                       --do_whole_word_mask=True"""
                       
     BERT_PATH, file_path, TF_OUT_DIR, index = cmd_vars
-    command = bert_pretraining_cmd.format(BERT_PATH, file_path, TF_OUT_DIR, index)
+    command = bert_pretraining_cmd.format(BERT_PATH, file_path, TF_OUT_DIR, index, VOCAB_FILE)
     process = subprocess.Popen(command, shell=True)
     process.wait()
     return None
@@ -164,29 +179,31 @@ if __name__ == '__main__':
     
     #Define source type here
     TYPE = 'CC' 
-    #TYPE = 'LEGALDUMP'
-    
+    FIX_EXPORT_ERROR = True #Fix weird format which was accidently saved as dedup output
     
     #For local Debugging Purposes
     if socket.gethostname() == "philipp-desktop": 
+        VOCAB_FILE = "/media/data/48_BERT/german-transformer-training/src/vocab.txt"
         THREADS = 8
-        IN_DIR = "/media/data/48_BERT/german-transformer-training/data/head"  #Small file (400mb) 
-        IN_DIR = "/media/data/48_BERT/Common_Crawl/CC_german_head"
-        #IN_DIR = "/media/data/48_BERT/Datasets/legal_dump"
-        #IN_DIR = "gs://germanbert/German_BERT_Dataset/CC_german_head/"
+        #Path from where the txt files are read in         
+        IN_DIR = "/media/data/48_BERT/german-transformer-training/data/head"
+        #When downloaded from gcp this is the destination folder
         #TRANSFER_DIR = "/media/data/48_BERT/german-transformer-training/data/download"
+        #TMP_DIR: Folder where cleaned and splitted texts are places
         TMP_DIR = "/media/data/48_BERT/german-transformer-training/data/tmp"
+        #TF_OUT_DIR: tf_records file for training BERT 
         TF_OUT_DIR = "/media/data/48_BERT/german-transformer-training/data/tf_rec"
-        
+        #PATH TO BERT SRC Code
         BERT_PATH = "../../01_BERT_Code/bert/"
     
     
     else: #For large scale execution on server
+        VOCAB_FILE = "/mnt/disks/data/mBERT/vocab.txt"
         THREADS = os.cpu_count()
-        IN_DIR = "/home/philipp_reissel/data/CC_german_head"
-        TMP_DIR = "/home/philipp_reissel/data/tmp"
-        TF_OUT_DIR = "/home/philipp_reissel/data/tf_rec"
-        BERT_PATH = "../../bert/"
+        IN_DIR = "/mnt/disks/data/data_head_url"
+        TMP_DIR = "/mnt/disks/data/data_head_url_cleaned"
+        TF_OUT_DIR = "/home/philipp_reissel/data/data_head_url_mbert_tfrec"
+        BERT_PATH = "/home/philipp_reissel/bert"
     
     
     files = read_file(IN_DIR)
@@ -202,12 +219,12 @@ if __name__ == '__main__':
             index = global_index + local_index
             result_ids.append(split.remote(chunk, index, TMP_DIR))
             
-        pdb.set_trace()
         results = ray.get(result_ids)
         global_index = global_index + local_index
     
     ray.shutdown()
 
+    pdb.set_trace()
     cmd_var = []
     for index, file in enumerate(os.listdir(TMP_DIR)): 
         file_path = os.path.join(TMP_DIR, file)
@@ -231,13 +248,7 @@ if __name__ == '__main__':
     """
 # Takes 4 Minutes on 22 Cores for 1e6 Wiki lines (300 mb)
 
-from html.parser import HTMLParser
 
-import html 
-
-pars = HTMLParser()
-a1 = BeautifulSoup(file[0])
-a2 = html.unescape(file[0])
 
 
 
