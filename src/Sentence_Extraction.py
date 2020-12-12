@@ -111,7 +111,7 @@ def read_file(path, TRANSFER_DIR=None):
             
         if file.endswith('.gz'):
             data = []
-            with gzip.open(file_path, 'rt', encoding='utf-8') as zipfile:
+            with gzip.open(file_path, 'rt', encoding='utf-8', errors='ignore') as zipfile:
                 if FIX_EXPORT_ERROR: 
                     a = zipfile.readline()
                     a = a.split("{'url'")
@@ -214,7 +214,7 @@ if __name__ == '__main__':
     for file in files: 
         result_ids = []
         #1e4 for json,gz else 1e5 
-        chunksize = int(1e4) #Needs XX GB RAM per Core
+        chunksize = int(1e3) #Needs XX GB RAM per Core
         for local_index, chunk in enumerate(chunks(file, chunksize)):
             index = global_index + local_index
             result_ids.append(split.remote(chunk, index, TMP_DIR))
