@@ -220,7 +220,7 @@ if __name__ == '__main__':
             result_ids.append(split.remote(chunk, index, TMP_DIR))
             
         results = ray.get(result_ids)
-        global_index = global_index + local_index
+        global_index += local_index + 1 
     
     ray.shutdown()
 
