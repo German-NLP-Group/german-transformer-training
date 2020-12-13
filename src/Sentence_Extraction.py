@@ -74,7 +74,7 @@ def chunks(lst, n):
         yield lst[i:i + n]
         
         
-def read_file(path, TRANSFER_DIR=None): 
+def read_file(path, TRANSFER_DIR=None, skip_files=None): 
     """
     Read and extracts all Files in Input Path
     """
@@ -98,58 +98,61 @@ def read_file(path, TRANSFER_DIR=None):
     
     for file in file_list: 
         print(file)
-        if path.startswith('gs'): #Copy files from storage to local HDD first 
-            pdb.set_trace()
-            #bucket = storage_client.bucket(p.parts[1])
-            #blob = bucket.blob("/".join(p.parts[2:]))
-            file.download_to_file(TRANSFER_DIR)
-
-            print("Blob {} downloaded to {}.".format(p.parts[2:],TRANSFER_DIR))
-            file_path = os.path.join(TRANSFER_DIR, file)
-        else:
-            file_path = os.path.join(path, file)
-            
-        if file.endswith('.gz'):
-            data = []
-            with gzip.open(file_path, 'rt', encoding='utf-8', errors='ignore') as zipfile:
-                if FIX_EXPORT_ERROR: 
-                    a = zipfile.readline()
-                    a = a.split("{'url'")
-                    a = [("{'url'" + item) for item in a]
-                for line in tqdm(a[1:]): 
-                #for line in zipfile: 
-                    #pdb.set_trace()
-                    #scraped = json.loads(line)
-                    try:
-                        scraped = eval(line)
-                    except ValueError:
-                        scraped = eval(line.replace(chr(0), ""))
-                    except SyntaxError:
-                        None
+        if file not in skip_files: 
+            if path.startswith('gs'): #Copy files from storage to local HDD first 
+                pdb.set_trace()
+                #bucket = storage_client.bucket(p.parts[1])
+                #blob = bucket.blob("/".join(p.parts[2:]))
+                file.download_to_file(TRANSFER_DIR)
+    
+                print("Blob {} downloaded to {}.".format(p.parts[2:],TRANSFER_DIR))
+                file_path = os.path.join(TRANSFER_DIR, file)
+            else:
+                file_path = os.path.join(path, file)
+                
+            if file.endswith('.gz'):
+                data = []
+                with gzip.open(file_path, 'rt', encoding='utf-8', errors='ignore') as zipfile:
+                    if FIX_EXPORT_ERROR: 
+                        a = zipfile.readline()
+                        a = a.split("{'url'")
+                        a = [("{'url'" + item) for item in a]
+                    for line in tqdm(a[1:]): 
+                    #for line in zipfile: 
+                        #pdb.set_trace()
+                        #scraped = json.loads(line)
+                        try:
+                            scraped = eval(line)
+                        except ValueError:
+                            scraped = eval(line.replace(chr(0), ""))
+                        except SyntaxError:
+                            None
+                            
+                        #Only take really good parts
+                        if scraped["language_score"] > 0.98:
+                            data.append(scraped[json_key])
+                        else:
+                            None
+                            #print(scraped[json_key])
                         
-                    #Only take really good parts
-                    if scraped["language_score"] > 0.98:
-                        data.append(scraped[json_key])
-                    else:
-                        None
-                        #print(scraped[json_key])
-                    
-                    
-        elif file.endswith('.txt'):
-            with open(file_path) as f:
-                raw_text = f.readlines()
-                data = [x.strip() for x in raw_text] 
-            
-        elif file.endswith('.json'):
-            data = []
-            for line in open(file_path, 'r'):
-                scraped = json.loads(line)
-                data.append(scraped[json_key])
-            
-        if TYPE == 'LEGALDUMP': #HTML to Text Conversion
-            data = [BeautifulSoup(line).text for line in data]
-            
-        yield data
+                        
+            elif file.endswith('.txt'):
+                with open(file_path) as f:
+                    raw_text = f.readlines()
+                    data = [x.strip() for x in raw_text] 
+                
+            elif file.endswith('.json'):
+                data = []
+                for line in open(file_path, 'r'):
+                    scraped = json.loads(line)
+                    data.append(scraped[json_key])
+                
+            if TYPE == 'LEGALDUMP': #HTML to Text Conversion
+                data = [BeautifulSoup(line).text for line in data]
+                
+            yield data
+        else: 
+            print('Skipping file', file)
  
 
 def run_command(cmd_vars):
@@ -206,12 +209,22 @@ if __name__ == '__main__':
         BERT_PATH = "/home/philipp_reissel/bert"
     
     
-    files = read_file(IN_DIR)
     
-    ray.init(num_cpus=THREADS)
     #a = list(files)
     global_index = 0
+    
+    READ_LOG =  True
+    if READ_LOG: 
+        with open('Log_Sentence_Extraction.txt', 'r') as log_file:
+            logs = log_file.readlines()
+            global_index = int(logs[-2].split('Splitted_')[1][0:5])
+            skip_files = [line.strip() for line in logs[:-1] if 'tar.gz' in line]
+            
+    files = read_file(IN_DIR, skip_files=skip_files)
+    pdb.set_trace()
+    
     for file in files: 
+        ray.init(num_cpus=THREADS)
         result_ids = []
         #1e4 for json,gz else 1e5 
         chunksize = int(1e3) #Needs XX GB RAM per Core
@@ -222,7 +235,7 @@ if __name__ == '__main__':
         results = ray.get(result_ids)
         global_index += local_index + 1 
     
-    ray.shutdown()
+        ray.shutdown()
 
     pdb.set_trace()
     cmd_var = []
